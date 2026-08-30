@@ -1,0 +1,12 @@
+# dependencies (GSAP is vendored into assets/js/vendor/, so node_modules
+# is only needed when updating it — see README)
+node_modules/
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# editor
+.vscode/*
+!.vscode/extensions.json

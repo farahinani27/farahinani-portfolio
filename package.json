@@ -1,0 +1,27 @@
+{
+  "name": "farahinani-portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "description": "farahinani.com — plain HTML/CSS/JS portfolio, no build step",
+  "homepage": "https://farahinani.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/farahinani27/farahinani-portfolio.git"
+  },
+  "author": "farahinani <farahinani27@gmail.com>",
+  "license": "UNLICENSED",
+  "scripts": {
+    "serve": "npx --yes serve .",
+    "update:gsap": "npm install gsap@3 && node -e \"const fs=require('fs');for(const f of ['gsap.min.js','ScrollTrigger.min.js'])fs.copyFileSync('node_modules/gsap/dist/'+f,'assets/js/vendor/'+f);console.log('vendored gsap',require('gsap/package.json').version)\"",
+    "build:images": "node scripts/build-images.mjs"
+  },
+  "comments": {
+    "no-build": "There is no bundler. GSAP is vendored into assets/js/vendor/ and committed. npm is only needed to refresh it (update:gsap) or regenerate images (build:images).",
+    "images": "Responsive image variants in assets/img/ are generated with scripts/build-images.mjs (needs the dev dependency 'sharp'). Source photos are NOT committed.",
+    "local-dev": "Use the VS Code Live Server extension, or `npm run serve`."
+  },
+  "devDependencies": {
+    "gsap": "^3.15.0",
+    "sharp": "^0.35.4"
+  }
+}

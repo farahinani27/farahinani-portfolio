@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Update lastmod dates and add <url> entries as pages are added. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://farahinani.com/</loc>
+    <lastmod>2026-08-30</lastmod>
+  </url>
+  <url>
+    <loc>https://farahinani.com/blog/</loc>
+    <lastmod>2026-08-30</lastmod>
+  </url>
+  <url>
+    <loc>https://farahinani.com/blog/hello-world.html</loc>
+    <lastmod>2026-08-30</lastmod>
+  </url>
+</urlset>
