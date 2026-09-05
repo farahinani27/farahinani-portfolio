@@ -1,0 +1,83 @@
+---
+/**
+ * SiteHeader.astro — fixed top bar: wordmark, menu button, spinning spark.
+ * The menu button is a visual placeholder for now (a later section will
+ * wire up the full-screen menu), so it is disabled and hidden from AT.
+ */
+---
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="wordmark" href="#top">
+      <span>farah</span><span>inani</span>
+    </a>
+
+    {/* TODO: full-screen menu — placeholder only */}
+    <button class="menu-btn" type="button" aria-hidden="true" tabindex="-1" disabled>
+      <span></span><span></span>
+    </button>
+
+    <span class="spark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+        <path
+          d="M12 1c.5 4 1.6 6.4 3.2 8 1.6 1.6 4 2.7 8 3.2-4 .5-6.4 1.6-8 3.2-1.6
+             1.6-2.7 4-3.2 8-.5-4-1.6-6.4-3.2-8C7.2 14.9 4.8 13.8 1 13.2c4-.5
+             6.4-1.6 8-3.2C10.6 8.4 11.7 6 12 1Z"></path>
+      </svg>
+    </span>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 10;
+    padding-block: var(--space-sm);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .wordmark {
+    display: grid;
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    line-height: 0.9;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    font-variation-settings: "opsz" 32, "SOFT" 50, "WONK" 1, "wght" 460;
+  }
+
+  .menu-btn {
+    display: grid;
+    gap: 5px;
+    padding: 8px;
+  }
+
+  .menu-btn span {
+    display: block;
+    width: 26px;
+    height: 1.5px;
+    background: currentColor;
+  }
+
+  .spark {
+    color: var(--accent);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .spark {
+      animation: spark-spin 9s linear infinite;
+    }
+  }
+
+  @keyframes spark-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>

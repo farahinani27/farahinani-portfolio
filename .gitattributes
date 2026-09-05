@@ -1,4 +1,0 @@
-* text=auto eol=lf
-
-# Vendored minified libs — leave exactly as shipped
-assets/js/vendor/*.js -text

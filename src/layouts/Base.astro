@@ -1,0 +1,63 @@
+---
+/**
+ * Base.astro — the HTML shell every page uses.
+ * Loads fonts + global styles, sets <head> metadata, and boots the
+ * animation module.
+ */
+import "@fontsource-variable/fraunces/full.css"; // display serif (opsz/SOFT/WONK axes)
+import "@fontsource-variable/instrument-sans"; // body / UI sans
+import "../styles/global.css";
+import Preloader from "../components/Preloader.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = "Portfolio of a web developer from Johor, Malaysia — front-end, WordPress and Adobe Experience Manager.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+
+    {/* Runs before paint: lock scrolling while the preloader is up, and flag
+        that motion + JS are available so CSS can pre-hide the intro elements.
+        The load-time failsafe clears everything if the scripts never run. */}
+    <script is:inline>
+      (function () {
+        var d = document.documentElement;
+        d.classList.add("is-loading");
+        if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          d.classList.add("anim-ready");
+        }
+        addEventListener("load", function () {
+          setTimeout(function () {
+            d.classList.remove("anim-ready");
+            d.classList.remove("is-loading");
+            var p = document.querySelector(".preloader");
+            if (p) p.remove();
+          }, 6500);
+        });
+      })();
+    </script>
+  </head>
+
+  <body>
+    <Preloader />
+    <slot />
+
+    <script>
+      import "../scripts/motion.ts";
+    </script>
+  </body>
+</html>

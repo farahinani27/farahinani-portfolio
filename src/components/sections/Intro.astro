@@ -1,0 +1,68 @@
+---
+/**
+ * Intro.astro — section 2.
+ * chungiyoo pairs a small running "off the clock" line with a large
+ * statement of intent. Both reveal on scroll (see src/scripts/motion.ts).
+ *
+ * EDIT ME: rewrite both paragraphs in your own voice.
+ */
+---
+
+<section class="intro" id="about">
+  <div class="wrap intro__inner">
+    <p class="intro__ticker">
+      Off the clock you&rsquo;ll find me chasing good coffee around Johor Bahru,
+      rebuilding little GSAP demos for the fun of it, and baking cookies for a
+      tiny side business.
+      <a class="intro__more" href="#about">More about me</a>
+    </p>
+
+    {/* Trailing spaces keep the line breaks from fusing words together for
+        screen readers ("accessible interfaces", not "accessibleinterfaces"). */}
+    <h2 class="intro__statement">
+      <span class="line"><span>I build fast, accessible </span></span>
+      <span class="line"><span>interfaces &mdash; and keep the </span></span>
+      <span class="line"><span>code readable enough to </span></span>
+      <span class="line"><span>hand straight back to you.</span></span>
+    </h2>
+  </div>
+</section>
+
+<style>
+  .intro {
+    padding-block: var(--space-xl);
+  }
+
+  .intro__inner {
+    display: grid;
+    gap: var(--space-lg);
+  }
+
+  .intro__ticker {
+    max-width: 60ch;
+    margin-left: auto;
+    text-transform: uppercase;
+    font-size: var(--text-sm);
+    letter-spacing: 0.08em;
+    line-height: 1.9;
+  }
+
+  .intro__more {
+    white-space: nowrap;
+    text-underline-offset: 0.25em;
+  }
+
+  .intro__statement {
+    font-size: var(--text-xl);
+  }
+
+  .intro__statement .line {
+    display: block;
+    overflow: hidden;
+    padding-block: 0.06em;
+  }
+
+  .intro__statement .line > span {
+    display: block;
+  }
+</style>
