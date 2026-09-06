@@ -1,8 +1,8 @@
 ---
 /**
  * Intro.astro — section 2.
- * chungiyoo pairs a small running "off the clock" line with a large
- * statement of intent. Both reveal on scroll (see src/scripts/motion.ts).
+ * A small uppercase "off the clock" kicker over a large statement of intent,
+ * both centred. Lines reveal on scroll (see src/scripts/motion.ts).
  *
  * EDIT ME: rewrite both paragraphs in your own voice.
  */
@@ -10,15 +10,15 @@
 
 <section class="intro" id="about">
   <div class="wrap intro__inner">
-    <p class="intro__ticker">
+    <p class="intro__kicker">
       Off the clock you&rsquo;ll find me chasing good coffee around Johor Bahru,
       rebuilding little GSAP demos for the fun of it, and baking cookies for a
       tiny side business.
       <a class="intro__more" href="#about">More about me</a>
     </p>
 
-    {/* Trailing spaces keep the line breaks from fusing words together for
-        screen readers ("accessible interfaces", not "accessibleinterfaces"). */}
+    {/* Trailing spaces stop screen readers fusing the line breaks
+        ("accessible interfaces", not "accessibleinterfaces"). */}
     <h2 class="intro__statement">
       <span class="line"><span>I build fast, accessible </span></span>
       <span class="line"><span>interfaces &mdash; and keep the </span></span>
@@ -30,39 +30,63 @@
 
 <style>
   .intro {
-    padding-block: var(--space-xl);
+    padding-block: clamp(6rem, 14vh, 12rem);
   }
 
   .intro__inner {
     display: grid;
-    gap: var(--space-lg);
+    justify-items: center;
+    gap: clamp(3rem, 8vh, 6rem);
+    text-align: center;
   }
 
-  .intro__ticker {
-    max-width: 60ch;
-    margin-left: auto;
+  .intro__kicker {
+    max-width: 46ch;
+    margin: 0;
     text-transform: uppercase;
-    font-size: var(--text-sm);
-    letter-spacing: 0.08em;
-    line-height: 1.9;
+    font-size: var(--text-xs);
+    letter-spacing: 0.14em;
+    line-height: 2;
+    color: color-mix(in oklab, var(--fg) 68%, var(--bg));
   }
 
   .intro__more {
+    display: inline-block;
+    margin-top: 0.6em;
     white-space: nowrap;
-    text-underline-offset: 0.25em;
+    letter-spacing: 0.14em;
+    color: var(--fg);
+    text-underline-offset: 0.3em;
+    text-decoration-thickness: 1px;
   }
 
   .intro__statement {
-    font-size: var(--text-xl);
+    margin: 0;
+    font-size: clamp(2.1rem, 1rem + 4.6vw, 5.25rem);
+    font-weight: 400;
+    line-height: 1.06;
+    letter-spacing: -0.01em;
   }
 
   .intro__statement .line {
     display: block;
     overflow: hidden;
-    padding-block: 0.06em;
+    padding-block: 0.09em;
   }
 
   .intro__statement .line > span {
     display: block;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 40rem) {
+    .intro__statement {
+      font-size: clamp(1.6rem, 7.5vw, 2.4rem);
+    }
+    .intro__statement .line,
+    .intro__statement .line > span {
+      white-space: normal;
+      overflow: visible;
+    }
   }
 </style>

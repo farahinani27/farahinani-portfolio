@@ -46,10 +46,11 @@
     --color-ink: #1b1b17;
     --color-teal: #2f6e6a;
     --color-coral: #e2603c;
+    --color-blush: #f1c9d1; /* soft pink for the hero background shapes */
 
-    --font-display: "Fraunces Variable", Georgia, "Times New Roman", serif;
-    --font-sans: "Instrument Sans Variable", system-ui, -apple-system,
-      "Segoe UI", Roboto, sans-serif;
+    /* both serifs — Cormorant for display, EB Garamond for reading text */
+    --font-display: "Cormorant Variable", Georgia, "Times New Roman", serif;
+    --font-body: "EB Garamond Variable", Georgia, "Times New Roman", serif;
 
     /* Fluid type scale — clamp(min, preferred, max) */
     --text-xs: clamp(0.78rem, 0.74rem + 0.18vw, 0.9rem);
@@ -77,6 +78,7 @@
     --fg: var(--color-ink);
     --accent: var(--color-teal);
     --doodle: var(--color-coral);
+    --shape: var(--color-blush);
   }
 
   /* While the preloader is up, freeze the page behind it. */
@@ -89,9 +91,10 @@
     min-height: 100dvh;
     background: var(--bg);
     color: var(--fg);
-    font-family: var(--font-sans);
-    font-size: var(--text-base);
-    line-height: 1.55;
+    font-family: var(--font-body);
+    /* EB Garamond runs small — nudge the base size + leading up a little */
+    font-size: clamp(1.05rem, 0.97rem + 0.4vw, 1.3rem);
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
@@ -101,9 +104,6 @@
     font-weight: 400;
     line-height: 0.94;
     letter-spacing: -0.015em;
-    /* opsz = display optical size, SOFT softens terminals, WONK adds the
-       quirky swash-like alternates that give chungiyoo its character */
-    font-variation-settings: "opsz" 144, "SOFT" 45, "WONK" 1, "wght" 380;
     text-wrap: balance;
   }
 
@@ -128,13 +128,19 @@
      failsafe if the animation module never loads). */
   @media (prefers-reduced-motion: no-preference) {
     :root.anim-ready :is(
-      .hero__eyebrow,
-      .hero__intro,
+      .hero__watermark,
+      .hero__mid,
       .hero__role,
-      .hero__actions,
-      .hero__name .line > span
+      .hero__doodle
     ) {
       opacity: 0;
+    }
+    /* the display lines start pushed below their clip windows */
+    :root.anim-ready :is(
+      .hero__lead .r,
+      .hero__name .r
+    ) {
+      transform: translateY(115%);
     }
   }
 }
