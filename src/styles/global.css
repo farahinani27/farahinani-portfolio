@@ -8,6 +8,13 @@
 
 /* ------------------------------------------------------------------ reset -- */
 @layer reset {
+  html {
+    /* stop iOS Safari auto-inflating text size, which can throw off
+       fluid clamp()-based type and any layout measured against it */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
   *,
   *::before,
   *::after {

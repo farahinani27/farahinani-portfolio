@@ -256,6 +256,9 @@ const badgeText = "· FARAH INANI · PORTFOLIO ";
       width: 100%;
       font-size: clamp(2.5rem, 12vw, 6rem);
       line-height: 0.92;
+      /* the desktop kerning tweak can visually shift text off-centre at
+         these sizes on some renderers; not needed at mobile scale anyway */
+      letter-spacing: normal;
     }
     .hero__lead .ln,
     .hero__name .ln {
