@@ -183,8 +183,7 @@ const badgeText = "· FARAH INANI · PORTFOLIO ";
     margin: 0;
     padding: 0.35em 0.6em;
     font-family: var(--font-body);
-    /* EB Garamond runs small — keep the intro comfortably readable */
-    font-size: clamp(1rem, 0.9rem + 0.5vw, 1.3rem);
+    font-size: clamp(0.95rem, 0.85rem + 0.4vw, 1.15rem);
     line-height: 1.5;
     color: color-mix(in oklab, var(--fg) 86%, var(--bg));
     /* faint paper halo so it stays legible where it grazes the big letters */
@@ -241,32 +240,48 @@ const badgeText = "· FARAH INANI · PORTFOLIO ";
       padding-top: clamp(30vh, 40svh, 44vh);
       padding-bottom: var(--space-lg);
     }
+
+    /* tight, cascading stack for the headline lines — chungiyoo's mobile
+       lines overlap slightly rather than sitting in airy, even gaps.
+       No uniform gap here: the "of ( intro )" block mixes a headline-sized
+       line with small body text, so each piece sets its own spacing below. */
+    .hero__lift {
+      gap: 0;
+    }
     .hero__lead,
-    .hero__name {
+    .hero__name,
+    .hero__of {
       font-size: clamp(2.5rem, 12vw, 6rem);
-      line-height: 1.02;
+      line-height: 0.92;
     }
     .hero__lead .ln,
     .hero__name .ln {
-      margin-block: 0; /* comfortable stacking on small screens */
-      padding-block: 0.04em;
+      margin-block: -0.04em;
+      padding-block: 0.08em;
     }
     .hero__lead .r,
     .hero__name .r {
       white-space: normal; /* wrap on narrow screens */
     }
 
-    /* the big "of" and the parens are desktop flourishes */
-    .hero__lift {
-      gap: var(--space-lg); /* clear separation once it's a plain stack */
+    /* "of" becomes its own full-width stacked line instead of hiding —
+       chungiyoo keeps it in the mobile headline too */
+    .hero__of {
+      display: block;
+      width: 100%;
+      text-align: center;
+      transform: none;
+      padding-block: 0.08em;
     }
-    .hero__of,
+    /* the big parens stay a desktop-only flourish */
     .hero__paren {
       display: none;
     }
     .hero__mid {
+      flex-direction: column;
       width: 100%;
-      margin-block: 0;
+      margin-block: 0.08em 0; /* small gap under "workshop" */
+      gap: 0.6em; /* "of" to the intro paragraph */
     }
     .hero__bracket {
       margin-top: 0;
@@ -281,7 +296,12 @@ const badgeText = "· FARAH INANI · PORTFOLIO ";
       font-size: var(--text-base);
     }
 
+    /* clears the intro paragraph above it, whatever its wrapped height */
+    .hero__name {
+      margin-top: var(--space-md);
+    }
     .hero__role {
+      margin-top: var(--space-md);
       font-size: clamp(1.5rem, 6vw, 2.5rem);
     }
     .hero__watermark {

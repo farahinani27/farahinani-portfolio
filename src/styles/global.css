@@ -48,9 +48,11 @@
     --color-coral: #e2603c;
     --color-blush: #f1c9d1; /* soft pink for the hero background shapes */
 
-    /* both serifs — Cormorant for display, EB Garamond for reading text */
+    /* chungiyoo-style pairing: display serif for headlines, clean sans for
+       everything else (role line, body copy, UI) */
     --font-display: "Cormorant Variable", Georgia, "Times New Roman", serif;
-    --font-body: "EB Garamond Variable", Georgia, "Times New Roman", serif;
+    --font-body: "Instrument Sans Variable", system-ui, -apple-system,
+      "Segoe UI", Roboto, sans-serif;
 
     /* Fluid type scale — clamp(min, preferred, max) */
     --text-xs: clamp(0.78rem, 0.74rem + 0.18vw, 0.9rem);
@@ -92,9 +94,8 @@
     background: var(--bg);
     color: var(--fg);
     font-family: var(--font-body);
-    /* EB Garamond runs small — nudge the base size + leading up a little */
-    font-size: clamp(1.05rem, 0.97rem + 0.4vw, 1.3rem);
-    line-height: 1.6;
+    font-size: clamp(1rem, 0.94rem + 0.3vw, 1.15rem);
+    line-height: 1.55;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
