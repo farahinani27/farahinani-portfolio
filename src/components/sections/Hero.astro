@@ -273,32 +273,19 @@ const badgeText = "· FARAH INANI · PORTFOLIO ";
       transform: none;
       padding-block: 0.08em;
     }
-    /* the big parens stay a desktop-only flourish */
-    .hero__paren {
+    /* mobile reads as one line of headline: "…workshop of Farah Inani" —
+       the bracketed intro (parens + "Hi! I'm…") is a desktop-only aside */
+    .hero__bracket {
       display: none;
     }
     .hero__mid {
       flex-direction: column;
       width: 100%;
       margin-block: 0.08em 0; /* small gap under "workshop" */
-      gap: 0.6em; /* "of" to the intro paragraph */
-    }
-    .hero__bracket {
-      margin-top: 0;
-      width: 100%;
-    }
-    .hero__intro {
-      flex-basis: auto;
-      max-width: 34rem;
-      margin: 0;
-      padding: 0;
-      background: none;
-      font-size: var(--text-base);
     }
 
-    /* clears the intro paragraph above it, whatever its wrapped height */
     .hero__name {
-      margin-top: var(--space-md);
+      margin-top: 0; /* cascades tight against "of", same rhythm as above */
     }
     .hero__role {
       margin-top: var(--space-md);
