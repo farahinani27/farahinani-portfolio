@@ -1,0 +1,48 @@
+# Builds the site and uploads it to the Hostinger preview subdomain over
+# FTP every time astro-revamp is pushed. Configure these repo secrets
+# first (Settings -> Secrets and variables -> Actions):
+#   FTP_SERVER      e.g. ftp.farahinani.com (or the IP Hostinger gives you)
+#   FTP_USERNAME    the FTP account created for the subdomain folder
+#   FTP_PASSWORD    that account's password
+#   FTP_SERVER_DIR  the subdomain's document root, e.g. domains/farahinani.com/public_html/preview/
+#
+# Trigger a run manually from the Actions tab (workflow_dispatch) if you
+# don't want to wait for the next push.
+name: Deploy preview to Hostinger
+
+on:
+  push:
+    branches: [astro-revamp]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload dist/ over FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          local-dir: ./dist/
+          protocol: ftps
+          # Only add/update files; don't delete anything on the server that
+          # isn't in this build. Safer while you're still setting things up.
+          dangerous-clean-slate: false
