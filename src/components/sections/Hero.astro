@@ -251,6 +251,9 @@ const badgeText = "· FARAH INANI · PORTFOLIO ";
     .hero__lead,
     .hero__name,
     .hero__of {
+      /* full width instead of shrink-to-fit, so centring can't skew off
+         by a few px depending on how the browser sizes wrapped text */
+      width: 100%;
       font-size: clamp(2.5rem, 12vw, 6rem);
       line-height: 0.92;
     }
@@ -291,8 +294,11 @@ const badgeText = "· FARAH INANI · PORTFOLIO ";
       margin-top: var(--space-md);
       font-size: clamp(1.5rem, 6vw, 2.5rem);
     }
+    /* sized to stay fully on-screen (and centred) instead of bleeding —
+       the desktop bleed-off-both-edges look doesn't work with no edge to
+       bleed past */
     .hero__watermark {
-      font-size: clamp(9rem, 60vw, 22rem);
+      font-size: clamp(6rem, 34vw, 9.5rem);
     }
     .hero__doodle--badge {
       width: clamp(72px, 20vw, 110px);
@@ -303,8 +309,12 @@ const badgeText = "· FARAH INANI · PORTFOLIO ";
 
   @media (max-width: 22rem) {
     .hero__lead,
-    .hero__name {
+    .hero__name,
+    .hero__of {
       font-size: clamp(2rem, 11vw, 2.75rem);
+    }
+    .hero__watermark {
+      font-size: clamp(5rem, 32vw, 7rem);
     }
   }
 </style>
