@@ -1,0 +1,43 @@
+---
+import Base from "../layouts/Base.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+---
+
+<Base title="Page not found — Farah Inani" description="This page doesn't exist.">
+  <SiteHeader />
+  <main class="notfound">
+    <p class="notfound__eyebrow">404</p>
+    <h1>This page wandered off.</h1>
+    <p><a href="/">Back to the workshop</a></p>
+  </main>
+</Base>
+
+<style>
+  .notfound {
+    min-height: 100svh;
+    display: grid;
+    place-items: center;
+    justify-items: center;
+    gap: var(--space-sm);
+    padding: var(--wrap-pad);
+    text-align: center;
+  }
+
+  .notfound__eyebrow {
+    margin: 0;
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: var(--text-sm);
+    color: color-mix(in oklab, var(--fg) 68%, var(--bg));
+  }
+
+  .notfound h1 {
+    margin: 0;
+    font-size: clamp(2rem, 6vw, 4rem);
+  }
+
+  .notfound a {
+    text-underline-offset: 0.25em;
+  }
+</style>

@@ -1,0 +1,64 @@
+---
+/**
+ * Preloader.astro — full-screen loading screen, chungiyoo-style.
+ * "Please wait…" is split into per-letter spans so each one can stagger in
+ * and then ride a slow sine wave while the page finishes loading.
+ * Motion + dismissal live in src/scripts/preloader.ts.
+ *
+ * EDIT ME: change the words below.
+ */
+const words = ["Please", "wait..."];
+---
+
+<div class="preloader" role="status" aria-label="Loading">
+  <p class="preloader__text" aria-hidden="true">
+    {
+      words.map((word) => (
+        <span class="preloader__word">
+          {[...word].map((ch) => (
+            <span class="preloader__char">{ch}</span>
+          ))}
+        </span>
+      ))
+    }
+  </p>
+</div>
+
+<style>
+  .preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: grid;
+    place-items: center;
+    background: var(--bg);
+    /* No-JS / JS-failed failsafe: hide the overlay after 6s no matter what. */
+    animation: preloader-failsafe 0s linear 6s forwards;
+  }
+
+  @keyframes preloader-failsafe {
+    to {
+      visibility: hidden;
+      pointer-events: none;
+    }
+  }
+
+  .preloader__text {
+    margin: 0;
+    display: flex;
+    gap: 0.42em; /* the space between "Please" and "wait..." */
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 400;
+    color: var(--fg);
+  }
+
+  .preloader__word {
+    display: inline-flex;
+  }
+
+  .preloader__char {
+    display: inline-block;
+    will-change: transform;
+  }
+</style>

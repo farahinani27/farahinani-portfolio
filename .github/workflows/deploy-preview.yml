@@ -1,0 +1,61 @@
+# Builds the site and rsyncs it to the Hostinger preview subdomain over
+# SSH every time astro-revamp is pushed. Configure these repo secrets
+# first (Settings -> Secrets and variables -> Actions):
+#   SSH_PRIVATE_KEY   the deploy key (paste the whole private key, incl.
+#                     the BEGIN/END lines)
+#   SSH_HOST          145.79.25.209
+#   SSH_PORT          65002
+#   SSH_USER          u531687480
+#   SSH_TARGET_DIR    domains/farahinani.com/public_html/staging/
+#                     (path is relative to the account home; keep the
+#                     trailing slash)
+#
+# Trigger a run manually from the Actions tab (workflow_dispatch) if you
+# don't want to wait for the next push.
+name: Deploy preview to Hostinger
+
+on:
+  push:
+    branches: [astro-revamp]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Set up the deploy key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          # Best-effort: pre-populate known_hosts so a normal connection
+          # doesn't prompt. If Hostinger's host key changes or this hiccups,
+          # don't fail the whole deploy over it — the rsync step below
+          # doesn't rely on known_hosts (StrictHostKeyChecking=no).
+          for i in 1 2 3; do
+            ssh-keyscan -p "${{ secrets.SSH_PORT }}" -T 10 "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null && break
+            sleep 3
+          done
+          true
+
+      - name: Upload dist/ over SSH (rsync)
+        run: |
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no -o ConnectTimeout=20" \
+            ./dist/ \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_TARGET_DIR }}"

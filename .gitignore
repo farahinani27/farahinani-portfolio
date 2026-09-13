@@ -1,12 +1,24 @@
-# dependencies (GSAP is vendored into assets/js/vendor/, so node_modules
-# is only needed when updating it — see README)
+# build output
+dist/
+# generated types
+.astro/
+
+# dependencies
 node_modules/
 
-# OS junk
-.DS_Store
-Thumbs.db
-desktop.ini
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-# editor
-.vscode/*
-!.vscode/extensions.json
+
+# environment variables
+.env
+.env.production
+
+# macOS-specific files
+.DS_Store
+
+# jetbrains setting folder
+.idea/

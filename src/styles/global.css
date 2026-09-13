@@ -1,0 +1,176 @@
+/* ============================================================================
+   global.css — design tokens + base styles
+   Palette and feel are inspired by chungiyoo.com: warm paper background,
+   near-black ink, one teal accent, a single coral "doodle" colour.
+   ========================================================================== */
+
+@layer reset, base, utilities;
+
+/* ------------------------------------------------------------------ reset -- */
+@layer reset {
+  html {
+    /* stop iOS Safari auto-inflating text size, which can throw off
+       fluid clamp()-based type and any layout measured against it */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  h1, h2, h3, p, figure, blockquote {
+    margin: 0;
+  }
+
+  img, svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+
+  a {
+    color: inherit;
+  }
+}
+
+/* ------------------------------------------------------------------- base -- */
+@layer base {
+  :root {
+    color-scheme: light; /* the design is committed to a light "paper" look */
+
+    /* --- Tier 1: literal tokens ------------------------------------------ */
+    --color-paper: #f3eee3;
+    --color-ink: #1b1b17;
+    --color-teal: #2f6e6a;
+    --color-coral: #e2603c;
+    --color-blush: #f1c9d1; /* soft pink for the hero background shapes */
+
+    /* chungiyoo-style pairing: display serif for headlines, clean sans for
+       everything else (role line, body copy, UI) */
+    --font-display: "Cormorant Variable", Georgia, "Times New Roman", serif;
+    --font-body: "Instrument Sans Variable", system-ui, -apple-system,
+      "Segoe UI", Roboto, sans-serif;
+
+    /* Fluid type scale — clamp(min, preferred, max) */
+    --text-xs: clamp(0.78rem, 0.74rem + 0.18vw, 0.9rem);
+    --text-sm: clamp(0.9rem, 0.85rem + 0.25vw, 1.05rem);
+    --text-base: clamp(1rem, 0.92rem + 0.4vw, 1.25rem);
+    --text-lg: clamp(1.35rem, 1.05rem + 1.5vw, 2.25rem);
+    --text-xl: clamp(2rem, 1.2rem + 3.8vw, 4.5rem);
+    --text-display: clamp(3.4rem, 0.5rem + 13vw, 13rem);
+
+    /* Fluid spacing */
+    --space-2xs: clamp(0.5rem, 0.45rem + 0.25vw, 0.65rem);
+    --space-xs: clamp(0.75rem, 0.65rem + 0.5vw, 1rem);
+    --space-sm: clamp(1rem, 0.85rem + 0.75vw, 1.5rem);
+    --space-md: clamp(1.75rem, 1.4rem + 1.75vw, 3rem);
+    --space-lg: clamp(3rem, 2.2rem + 4vw, 6rem);
+    --space-xl: clamp(5rem, 3.5rem + 7.5vw, 11rem);
+
+    /* Layout */
+    --wrap-max: 84rem;
+    --wrap-pad: clamp(1.25rem, 0.8rem + 2.25vw, 3rem);
+    --measure: 44ch;
+
+    /* --- Tier 2: semantic tokens --------------------------------------- */
+    --bg: var(--color-paper);
+    --fg: var(--color-ink);
+    --accent: var(--color-teal);
+    --doodle: var(--color-coral);
+    --shape: var(--color-blush);
+  }
+
+  /* While the preloader is up, freeze the page behind it. */
+  :root.is-loading body {
+    overflow: hidden;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 0.94rem + 0.3vw, 1.15rem);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 0.94;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--color-paper);
+  }
+
+  /* Pre-hide elements that the intro animation will reveal, so there is no
+     flash of un-animated content. Only when motion is welcome AND JS ran
+     (the <html> class is added by an inline script, and removed again as a
+     failsafe if the animation module never loads). */
+  @media (prefers-reduced-motion: no-preference) {
+    :root.anim-ready :is(
+      .hero__watermark,
+      .hero__mid,
+      .hero__role,
+      .hero__doodle
+    ) {
+      opacity: 0;
+    }
+    /* the display lines start pushed below their clip windows */
+    :root.anim-ready :is(
+      .hero__lead .r,
+      .hero__name .r
+    ) {
+      transform: translateY(115%);
+    }
+  }
+}
+
+/* -------------------------------------------------------------- utilities -- */
+@layer utilities {
+  .wrap {
+    width: 100%;
+    max-width: var(--wrap-max);
+    margin-inline: auto;
+    padding-inline: var(--wrap-pad);
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+}

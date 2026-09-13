@@ -1,6 +1,4 @@
 {
-  "recommendations": [
-    "ritwickdey.liveserver",
-    "editorconfig.editorconfig"
-  ]
+  "recommendations": ["astro-build.astro-vscode"],
+  "unwantedRecommendations": []
 }

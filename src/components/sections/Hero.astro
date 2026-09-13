@@ -1,0 +1,323 @@
+---
+/**
+ * Hero.astro — section 1.
+ *
+ * A clean centred stack, nothing overlapping:
+ *
+ *   Welcome to the
+ *   workshop
+ *   of  ( Hi! I'm Farah Inani, a front-end developer … )
+ *   Farah Inani
+ *   Front-End Developer
+ *
+ * with a giant pale "Code" watermark behind and a smiley badge top-right.
+ * Load + scroll motion live in src/scripts/motion.ts.
+ *
+ * EDIT ME:
+ *   - the lead lines + name in the markup below
+ *   - the intro sentence
+ *   - `watermark` — huge pale word behind the lower half (chungiyoo: "Art")
+ *   - `role` — the line under the name
+ *   - `badgeText` — circular text in the smiley badge
+ */
+const watermark = "Code";
+const role = "Front-End Developer";
+const badgeText = "· FARAH INANI · PORTFOLIO ";
+---
+
+<section class="hero" id="top">
+  <div class="hero__stage">
+    {/* --- giant background word (nearly still on scroll) -------- */}
+    <span class="hero__watermark" aria-hidden="true">{watermark}</span>
+
+    {/* --- everything here lifts together on scroll ------------- */}
+    <div class="hero__lift">
+      <p class="hero__lead">
+        <span class="ln"><span class="r">Welcome to the</span></span>
+        <span class="ln"><span class="r">workshop</span></span>
+        <span class="visually-hidden">of</span>
+      </p>
+
+      <div class="hero__mid">
+        <span class="hero__of" aria-hidden="true">of</span>
+        <span class="hero__bracket">
+          <span class="hero__paren" aria-hidden="true">(</span>
+          <p class="hero__intro">
+            Hi! I&rsquo;m <strong>Farah Inani</strong>, a front-end developer from
+            Johor, Malaysia. But you can call me Fara.
+          </p>
+          <span class="hero__paren" aria-hidden="true">)</span>
+        </span>
+      </div>
+
+      <h1 class="hero__name"><span class="ln"><span class="r">Farah Inani</span></span></h1>
+
+      <p class="hero__role">{role}</p>
+    </div>
+
+    {/* --- decorative badge (purely visual) -------------------- */}
+    <div class="hero__doodles" aria-hidden="true">
+      <svg class="hero__doodle hero__doodle--badge" viewBox="0 0 120 120">
+        <defs>
+          <path id="hero-badge-arc" d="M60,60 m-45,0 a45,45 0 1,1 90,0 a45,45 0 1,1 -90,0"></path>
+        </defs>
+        <circle cx="60" cy="60" r="53" fill="none" stroke="currentColor" stroke-width="1.4"></circle>
+        <circle cx="47" cy="53" r="2.6" fill="currentColor"></circle>
+        <circle cx="73" cy="53" r="2.6" fill="currentColor"></circle>
+        <path d="M45 68 Q60 82 75 68" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+        <text class="hero__doodle-text">
+          <textPath href="#hero-badge-arc" startOffset="0">{badgeText}</textPath>
+        </text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    /* taller than the viewport so there's scroll room for the parallax */
+    min-height: 150svh;
+    /* headline starts around the middle of the viewport */
+    padding: clamp(38vh, 48svh, 52vh) var(--wrap-pad) clamp(6rem, 16vh, 12rem);
+    overflow: clip;
+  }
+
+  .hero__stage {
+    position: relative;
+    width: 100%;
+    max-width: 82rem;
+    margin-inline: auto;
+  }
+
+  /* the whole stack — one flex column, centred, nothing overlapping */
+  .hero__lift {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0; /* the lines carry their own tight rhythm below */
+  }
+
+  /* -------------------------------------------------------- watermark -- */
+  .hero__watermark {
+    position: absolute;
+    left: 50%;
+    bottom: -0.06em;
+    z-index: 0;
+    transform: translateX(-50%);
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(11rem, 44vw, 40rem); /* bleeds off both edges */
+    line-height: 0.8;
+    white-space: nowrap;
+    color: var(--shape);
+    pointer-events: none;
+  }
+
+  /* -------------------------------------------------- display lines -- */
+  /* tight, slightly overlapping leading — the chungiyoo rhythm */
+  .hero__lead,
+  .hero__name {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.5rem, 10.5vw, 10rem);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+  }
+
+  .hero__lead .ln,
+  .hero__name .ln {
+    display: block;
+    overflow: hidden; /* clip window; .r rises up into it on load */
+    padding-block: 0.12em; /* glyph room inside the clip */
+    margin-block: -0.16em; /* … pulled back so the lines sit tight */
+  }
+
+  .hero__lead .r,
+  .hero__name .r {
+    display: block;
+    white-space: nowrap;
+  }
+
+  /* -------------------------------------------- the "of ( … )" row -- */
+  .hero__mid {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start; /* "of" + bracket group ride high, under "workshop" */
+    justify-content: center;
+    gap: 0.1em 0.4rem;
+    margin-block: -0.14em;
+  }
+
+  .hero__of {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.5rem, 10.5vw, 10rem); /* same as the display lines */
+    line-height: 0.72;
+    transform: rotate(-3deg);
+  }
+
+  /* ( · sentence · ) — parens vertically centred on the text */
+  .hero__bracket {
+    display: flex;
+    align-items: center;
+    gap: 0.15em;
+    margin-top: 0.35em; /* drop the whole group into the gap a little */
+  }
+
+  .hero__paren {
+    flex: none;
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(2.75rem, 6vw, 5rem);
+    line-height: 1;
+    color: color-mix(in oklab, var(--fg) 42%, var(--bg));
+  }
+
+  .hero__intro {
+    flex: 0 1 20rem;
+    margin: 0;
+    padding: 0.35em 0.6em;
+    font-family: var(--font-body);
+    font-size: clamp(0.95rem, 0.85rem + 0.4vw, 1.15rem);
+    line-height: 1.5;
+    color: color-mix(in oklab, var(--fg) 86%, var(--bg));
+    /* faint paper halo so it stays legible where it grazes the big letters */
+    background: radial-gradient(
+      ellipse 115% 125% at 50% 50%,
+      color-mix(in oklab, var(--bg) 78%, transparent) 45%,
+      transparent 100%
+    );
+  }
+
+  .hero__intro strong {
+    color: var(--fg);
+    font-weight: 500;
+  }
+
+  /* -------------------------------------------------------------- role -- */
+  .hero__role {
+    margin: 0.5em 0 0;
+    font-family: var(--font-body);
+    font-size: clamp(1.6rem, 4.8vw, 3.5rem);
+    font-weight: 400;
+  }
+
+  /* ------------------------------------------------------- doodles ------ */
+  .hero__doodles {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+  }
+
+  .hero__doodle {
+    position: absolute;
+    color: color-mix(in oklab, var(--fg) 62%, var(--bg));
+  }
+
+  .hero__doodle-text {
+    font-family: var(--font-body);
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    fill: currentColor;
+  }
+
+  .hero__doodle--badge {
+    width: clamp(84px, 11vw, 146px);
+    color: var(--fg);
+    top: 8%;
+    right: 5%;
+  }
+
+  /* ------------------------------------------------- tablet / mobile ---- */
+  @media (max-width: 48rem) {
+    .hero {
+      padding-top: clamp(30vh, 40svh, 44vh);
+      padding-bottom: var(--space-lg);
+    }
+
+    /* tight, cascading stack for the headline lines — chungiyoo's mobile
+       lines overlap slightly rather than sitting in airy, even gaps.
+       No uniform gap here: the "of ( intro )" block mixes a headline-sized
+       line with small body text, so each piece sets its own spacing below. */
+    .hero__lift {
+      gap: 0;
+    }
+    .hero__lead,
+    .hero__name,
+    .hero__of {
+      /* full width instead of shrink-to-fit, so centring can't skew off
+         by a few px depending on how the browser sizes wrapped text */
+      width: 100%;
+      font-size: clamp(2.5rem, 12vw, 6rem);
+      line-height: 0.92;
+      /* the desktop kerning tweak can visually shift text off-centre at
+         these sizes on some renderers; not needed at mobile scale anyway */
+      letter-spacing: normal;
+    }
+    .hero__lead .ln,
+    .hero__name .ln {
+      margin-block: -0.04em;
+      padding-block: 0.08em;
+    }
+    .hero__lead .r,
+    .hero__name .r {
+      white-space: normal; /* wrap on narrow screens */
+    }
+
+    /* "of" becomes its own full-width stacked line instead of hiding —
+       chungiyoo keeps it in the mobile headline too */
+    .hero__of {
+      display: block;
+      width: 100%;
+      text-align: center;
+      transform: none;
+      padding-block: 0.08em;
+    }
+    /* mobile reads as one line of headline: "…workshop of Farah Inani" —
+       the bracketed intro (parens + "Hi! I'm…") is a desktop-only aside */
+    .hero__bracket {
+      display: none;
+    }
+    .hero__mid {
+      flex-direction: column;
+      width: 100%;
+      margin-block: 0.08em 0; /* small gap under "workshop" */
+    }
+
+    .hero__name {
+      margin-top: 0; /* cascades tight against "of", same rhythm as above */
+    }
+    .hero__role {
+      margin-top: var(--space-md);
+      font-size: clamp(1.5rem, 6vw, 2.5rem);
+    }
+    /* sized to stay fully on-screen (and centred) instead of bleeding —
+       the desktop bleed-off-both-edges look doesn't work with no edge to
+       bleed past */
+    .hero__watermark {
+      font-size: clamp(6rem, 34vw, 9.5rem);
+    }
+    .hero__doodle--badge {
+      width: clamp(72px, 20vw, 110px);
+      top: 1%;
+      right: 3%;
+    }
+  }
+
+  @media (max-width: 22rem) {
+    .hero__lead,
+    .hero__name,
+    .hero__of {
+      font-size: clamp(2rem, 11vw, 2.75rem);
+    }
+    .hero__watermark {
+      font-size: clamp(5rem, 32vw, 7rem);
+    }
+  }
+</style>

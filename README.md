@@ -1,47 +1,47 @@
-# farahinani.com
+# farahinani-portfolio
 
-Personal portfolio. Plain HTML, CSS, and vanilla JavaScript with GSAP for
-scroll reveals. **No build step.**
+Portfolio revamp built with [Astro](https://astro.build) + [GSAP](https://gsap.com),
+visually inspired by [chungiyoo.com](https://www.chungiyoo.com/): warm paper
+background, one display serif doing the branding, a single teal accent, generous
+whitespace, and motion-led section reveals.
 
-> Neutral scaffold. The visual design is being restarted — palette, fonts,
-> hero and layout in `index.html` / `assets/css/main.css` are placeholders.
-> (An earlier Anna Jóna-style prototype was moved to the `halaman-website`
-> repo.)
+## Commands
 
-## Run locally
+| Command             | Action                                        |
+| ------------------- | --------------------------------------------- |
+| `npm run dev`       | Start the dev server at `localhost:4321`      |
+| `npm run build`     | Build the static site to `./dist/`            |
+| `npm run preview`   | Preview the production build locally          |
 
-- **VS Code Live Server** — right-click `index.html` → *Open with Live Server*.
-- **Terminal** — `npm run serve`.
-
-## Structure
+## Project layout
 
 ```
-index.html              Home: hero + Projects / About / Services / Contact (placeholders)
-blog/index.html          Post list
-blog/<slug>.html          One file per post
-404.html
-.htaccess                Apache config for Hostinger (HTTPS, 404, gzip, caching, headers)
-partials/                Reference header/footer to paste into blog pages
-assets/css/main.css      One stylesheet, @layer-organised
-assets/js/main.js         Nav toggle, footer year, [data-reveal] scroll fades
-assets/js/vendor/         GSAP + ScrollTrigger (vendored, committed)
-assets/fonts/, assets/img/
-scripts/build-images.mjs  One-off responsive-image generator (dev dep 'sharp')
-robots.txt, sitemap.xml
+src/
+  layouts/Base.astro          # <head>, fonts, global CSS, boots motion.ts
+  components/
+    SiteHeader.astro          # wordmark · menu button (placeholder) · spinning spark
+    sections/
+      Hero.astro              # SECTION 1 — eyebrow, oversized name, role, CTAs
+      Intro.astro             # SECTION 2 — running "off the clock" line + statement
+  scripts/motion.ts           # all GSAP: hero intro timeline + scroll reveals
+  styles/global.css           # design tokens (colours, fluid type/space) + base
 ```
 
-## Shared header / footer
+Only sections 1 and 2 are built so far.
 
-No templating. When the header or footer changes, update the files in
-`partials/` and paste the block into `index.html` and each `blog/*.html`.
+## Design knobs (start here when tweaking)
 
-## Publish (manual)
+- **Palette + type scale**: CSS custom properties at the top of `src/styles/global.css`.
+- **Hero name size**: `--text-display` in `global.css` — currently very large,
+  chungiyoo-style. Lower the `13vw` / `13rem` values to tame it.
+- **Fonts**: swapped in `Base.astro`. Display is Fraunces (variable, with the
+  `opsz` / `SOFT` / `WONK` axes tuned in `global.css` for the swashy look);
+  body is Instrument Sans. Both self-hosted via `@fontsource-variable/*`.
+- **Motion**: timing/eases live in `src/scripts/motion.ts`. Everything is inside
+  `gsap.matchMedia("(prefers-reduced-motion: no-preference)")`, so reduced-motion
+  users and no-JS visitors get the full content with zero animation.
 
-Upload to Hostinger `public_html/` — do include `.htaccess` (hidden). Don't
-upload `node_modules/`, `partials/`, `.vscode/`, `.git/`, `package*.json`,
-`scripts/`, `README.md`, or the other dotfiles.
+## Copy to replace
 
-## Before going live
-
-Work through `fiaentreprise/ops/launch-checklist.md`: real content, brand,
-favicon, `og-image.jpg`, Lighthouse pass, form handling, analytics.
+`Hero.astro` and `Intro.astro` are marked `EDIT ME` — the name, intro sentence,
+role line, CTA labels and the two section-2 paragraphs are all placeholder text.
