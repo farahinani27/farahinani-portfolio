@@ -1,10 +1,14 @@
-# Builds the site and uploads it to the Hostinger preview subdomain over
-# FTP every time astro-revamp is pushed. Configure these repo secrets
+# Builds the site and rsyncs it to the Hostinger preview subdomain over
+# SSH every time astro-revamp is pushed. Configure these repo secrets
 # first (Settings -> Secrets and variables -> Actions):
-#   FTP_SERVER      e.g. ftp.farahinani.com (or the IP Hostinger gives you)
-#   FTP_USERNAME    the FTP account created for the subdomain folder
-#   FTP_PASSWORD    that account's password
-#   FTP_SERVER_DIR  the subdomain's document root, e.g. domains/farahinani.com/public_html/preview/
+#   SSH_PRIVATE_KEY   the deploy key (paste the whole private key, incl.
+#                     the BEGIN/END lines)
+#   SSH_HOST          145.79.25.209
+#   SSH_PORT          65002
+#   SSH_USER          u531687480
+#   SSH_TARGET_DIR    domains/farahinani.com/public_html/staging/
+#                     (path is relative to the account home; keep the
+#                     trailing slash)
 #
 # Trigger a run manually from the Actions tab (workflow_dispatch) if you
 # don't want to wait for the next push.
@@ -34,15 +38,16 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Upload dist/ over FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ${{ secrets.FTP_SERVER_DIR }}
-          local-dir: ./dist/
-          protocol: ftps
-          # Only add/update files; don't delete anything on the server that
-          # isn't in this build. Safer while you're still setting things up.
-          dangerous-clean-slate: false
+      - name: Set up the deploy key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p "${{ secrets.SSH_PORT }}" "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Upload dist/ over SSH (rsync)
+        run: |
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.SSH_PORT }}" \
+            ./dist/ \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_TARGET_DIR }}"
